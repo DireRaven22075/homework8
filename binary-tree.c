@@ -211,7 +211,46 @@ int insert(Node* head, int key)
 
 int deleteLeafNode(Node* head, int key)
 {
-	
+	Node* current = head->left;
+	Node* parent = head;
+
+	//탐색 무한반복
+	while (1) {
+		if (current->key < key) {
+			if (current->right != NULL) {
+				parent = current;
+				current = current->right;
+			}
+			else {
+				return 0;
+			}
+		}
+		else if (current->key > key) {
+			if (current->left != NULL) {
+				parent = current;
+				current = current->left;
+			}
+			else {
+				return 0;
+			}
+		}
+		else {
+			if (current->left == NULL && current->right == NULL) {
+				if (parent->left == current) {
+					parent->left = NULL;
+				}
+				else {
+					parent->right = NULL;
+				}
+				free(current);
+				return 0;
+			}
+			else {
+				printf("the node [%d] is not a leaf node.\n", key);
+				return 0;
+			}
+		}
+	}
 }
 
 Node* searchRecursive(Node* ptr, int key)
