@@ -129,7 +129,7 @@ void inorderTraversal(Node* ptr)
 {
 	if (ptr->left != NULL)
 		inorderTraversal(ptr->left);
-	printf("%d ", ptr->key);
+	printf("[%d] ", ptr->key);
 	if (ptr->right != NULL)
 		inorderTraversal(ptr->right);
 	return;
@@ -137,6 +137,12 @@ void inorderTraversal(Node* ptr)
 
 void preorderTraversal(Node* ptr)
 {
+	printf("[%d] ", ptr->key);
+	if (ptr->left != NULL)
+		preorderTraversal(ptr->left);
+	if (ptr->right != NULL)
+		preorderTraversal(ptr->right);
+	return;
 }
 
 void postorderTraversal(Node* ptr)
