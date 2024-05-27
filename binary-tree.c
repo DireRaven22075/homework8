@@ -127,6 +127,12 @@ int initializeBST(Node** h) {
 
 void inorderTraversal(Node* ptr)
 {
+	if (ptr->left != NULL)
+		inorderTraversal(ptr->left);
+	printf("%d ", ptr->key);
+	if (ptr->right != NULL)
+		inorderTraversal(ptr->right);
+	return;
 }
 
 void preorderTraversal(Node* ptr)
