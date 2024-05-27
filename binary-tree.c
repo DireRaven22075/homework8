@@ -147,7 +147,12 @@ void preorderTraversal(Node* ptr)
 
 void postorderTraversal(Node* ptr)
 {
-
+	if (ptr->left != NULL)
+		postorderTraversal(ptr->left);
+	if (ptr->right != NULL)
+		postorderTraversal(ptr->right);
+	printf("[%d] ", ptr->key);
+	return;
 }
 
 
