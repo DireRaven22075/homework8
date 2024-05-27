@@ -127,12 +127,10 @@ int initializeBST(Node** h) {
 
 void inorderTraversal(Node* ptr)
 {
-
 }
 
 void preorderTraversal(Node* ptr)
 {
-
 }
 
 void postorderTraversal(Node* ptr)
@@ -143,12 +141,60 @@ void postorderTraversal(Node* ptr)
 
 int insert(Node* head, int key)
 {
-
+	//새로운 노드 동적할당
+	Node* node = (Node*)malloc(sizeof(Node));
+	//새로운 노드에 key값 저장
+	node->key = key;
+	//새로운 노드의 포인터 초기화
+	node->left = NULL;
+	node->right = NULL;
+	//현재 탐색위치 저장용 변수 선언
+	Node* current = head;
+	//만약 트리가 비어있다면 (루트의 좌측에 할당)
+	if (head->left == NULL) {
+		head->left = node;
+		return 0;
+	}
+	current = head->left;
+	//탐색 무한반복
+	while (1) {
+		//만약 추가할 노드의 키값이 현재 탐색위치의 키값보다 크다면
+		if (current->key < node->key) {
+			//만약 우측이 비어있다면, 우측에 배치후 함수 종료
+			if (current->right == NULL) {
+				current->right = node;
+				break;
+			}
+			else {
+				//우측이 비어있지 않다면, 우측으로 이동
+				current = current->right;
+			}
+		}
+		//만약 추가할 노드의 키값이 현재 탐색위치의 키값보다 작다면
+		else if (current->key > node->key) {
+			//만약 좌측이 비어있다면, 좌측에 배치후 함수 종료
+			if (current->left == NULL) {
+				current->left = node;
+				break;
+			}
+			else {
+				//좌측이 비어있지 않다면, 좌측으로 이동
+				current = current->left;
+			}
+		}
+		//만약 추가할 노드의 키값과 현재 탐색위치의 키값이 같다면
+		else {
+			//이미 존재하는 키값이므로 함수 종료
+			printf("현재 존재하는 키값입니다.");
+			return EOF;
+		}
+	}
+	return 0;
 }
 
 int deleteLeafNode(Node* head, int key)
 {
-
+	
 }
 
 Node* searchRecursive(Node* ptr, int key)
