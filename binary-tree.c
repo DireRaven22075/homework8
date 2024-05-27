@@ -38,6 +38,7 @@ int main()
 	int key;
 	Node* head = NULL;
 	Node* ptr = NULL;	/* temp */
+	//학번 출력
 	printf("[----------------------2023041004 - 한윤수----------------------]\n");
 	do{
 		printf("\n\n");
@@ -124,38 +125,58 @@ int initializeBST(Node** h) {
 }
 
 
-
+//중위순회 함수 (left-> root -> right)
 void inorderTraversal(Node* ptr)
 {
+	//만약 좌측에 노드가 존재한다면
 	if (ptr->left != NULL)
+		//좌측으로 제귀함수 호출
 		inorderTraversal(ptr->left);
+	//현재 노드의 값 출력
 	printf("[%d] ", ptr->key);
+	//만약 우측에 노드가 존재한다면
 	if (ptr->right != NULL)
+		//우측으로 제귀함수 호출
 		inorderTraversal(ptr->right);
+	//함수 종료
 	return;
 }
 
+//전위순회 함수 (root -> left -> right)
 void preorderTraversal(Node* ptr)
 {
+	//현재 노드의 값 출력
 	printf("[%d] ", ptr->key);
+	//만약 좌측에 노드가 존재한다면
 	if (ptr->left != NULL)
+		//좌측으로 제귀함수 호출
 		preorderTraversal(ptr->left);
+	//만약 우측에 노드가 존재한다면
 	if (ptr->right != NULL)
+		//우측으로 제귀함수 호출
 		preorderTraversal(ptr->right);
+	//함수 종료
 	return;
 }
 
+//후위순회 함수 (left -> right -> root)
 void postorderTraversal(Node* ptr)
 {
+	//만약 좌측에 노드가 존재한다면
 	if (ptr->left != NULL)
+		//좌측으로 제귀함수 호출
 		postorderTraversal(ptr->left);
+	//만약 우측에 노드가 존재한다면
 	if (ptr->right != NULL)
+		//우측으로 제귀함수 호출
 		postorderTraversal(ptr->right);
+	//현재 노드의 값 출력
 	printf("[%d] ", ptr->key);
+	//함수 종료
 	return;
 }
 
-
+//노드 추가함수
 int insert(Node* head, int key)
 {
 	//새로운 노드 동적할당
@@ -209,42 +230,61 @@ int insert(Node* head, int key)
 	return 0;
 }
 
+//리프노드 삭제함수
 int deleteLeafNode(Node* head, int key)
 {
+	//현재 탐색위치 저장용 변수 선언
 	Node* current = head->left;
+	//부모노드 저장용 변수 선언
 	Node* parent = head;
-
 	//탐색 무한반복
 	while (1) {
-		if (current->key < key) {
-			if (current->right != NULL) {
-				parent = current;
-				current = current->right;
+		//만약 현재 탐색위치의 키값이 찾으려는 키값과 다르다면
+		if (current->key != key) {
+			//만약 현재 탐색위치의 키값이 찾으려는 키값보다 작다면
+			if (current->key < key) {
+				//만약 우측에 노드가 존재한다면 우측으로 이동
+				if (current->right != NULL) {
+					parent = current;
+					current = current->right;
+				}
+				//찾지 못하면 출력후 함수 종료
+				else {
+					printf("the node [%d] is not found.\n", key);
+					return 0;
+				} 
 			}
+			//만약 현재 탐색위치의 키값이 찾으려는 키값보다 크다면
 			else {
-				return 0;
+				//만약 좌측에 노드가 존재한다면 좌측으로 이동
+				if (current->left != NULL) {
+					parent = current;
+					current = current->left;
+				}
+				//찾지 못하면 출력후 함수 종료
+				else {
+					printf("the node [%d] is not found.\n", key);
+					return 0;
+				}
 			}
 		}
-		else if (current->key > key) {
-			if (current->left != NULL) {
-				parent = current;
-				current = current->left;
-			}
-			else {
-				return 0;
-			}
-		}
+		//만약 현재 탐색위치의 키값이 찾으려는 키값과 같다면
 		else {
+			//만약 현재 탐색위치가 리프노드라면
 			if (current->left == NULL && current->right == NULL) {
+				//부모노드의 좌측이 현재 탐색위치라면, 좌측을 NULL로 초기화
 				if (parent->left == current) {
 					parent->left = NULL;
 				}
+				//부모노드의 우측이 현재 탐색위치라면, 우측을 NULL로 초기화
 				else {
 					parent->right = NULL;
 				}
+				//현재 탐색위치 메모리 해제후 함수 종료
 				free(current);
 				return 0;
 			}
+			//리프노드가 아니라면 출력후 함수 종료
 			else {
 				printf("the node [%d] is not a leaf node.\n", key);
 				return 0;
@@ -253,50 +293,75 @@ int deleteLeafNode(Node* head, int key)
 	}
 }
 
+//제귀함수를 이용한 탐색 함수
 Node* searchRecursive(Node* ptr, int key)
 {
+	//만약 현재 탐색위치의 키값이 찾으려는 키값과 다르다면
 	if (ptr->key != key) {
+		//만약 현재 탐색위치의 키값이 찾으려는 키값보다 작다면
 		if (ptr->key < key) {
+			//만약 우측에 노드가 존재한다면 우측으로 이동
 			if (ptr->right != NULL) searchRecursive(ptr->right, key);
+			//없으면 NULL 반환
 			else return NULL;
 		}
+		//만약 현재 탐색위치의 키값이 찾으려는 키값보다 크다면
 		else {
+			//만약 좌측에 노드가 존재한다면 좌측으로 이동
 			if (ptr->left != NULL) searchRecursive(ptr->left, key);
+			//없으면 NULL 반환
 			else return NULL;
 		}
 	}
+	//만약 현재 탐색위치의 키값이 찾으려는 키값과 같다면
 	else {
 		return ptr;
 	}
 }
 
+//반복문을 이용한 탐색 함수
 Node* searchIterative(Node* head, int key)
 {
+	//현재 탐색위치 저장용 변수 선언
 	Node* current = head->left;
+	//탐색 무한반복
 	while (1) {
+		//만약 현재 탐색위치의 키값이 찾으려는 키값과 다르다면
 		if (current->key != key) {
+			//만약 현재 탐색위치의 키값이 찾으려는 키값보다 작다면
 			if (current->key < key) {
+				//만약 우측에 노드가 존재한다면 우측으로 이동
 				if (current->right != NULL) current = current->right;
+				//없으면 NULL 반환
 				else return NULL;
 			}
 			else {
+				//만약 좌측에 노드가 존재한다면 좌측으로 이동
 				if (current->left != NULL) current = current->left;
+				//없으면 NULL 반환
 				else return NULL;
 			}
 		}
+		//만약 현재 탐색위치의 키값이 찾으려는 키값과 같다면
 		else {
+			//현재 탐색위치 반환
 			return current;
 		}
 	}
 }
 
-
+//메모리 해제 함수
 int freeBST(Node* head)
 {
+	//만약 우측에 노드가 존재한다면
 	if (head->right != NULL)
+		//우측 노드로 제귀함수 호출
 		freeBST(head->right);
+	//만약 좌측에 노드가 존재한다면
 	if (head->left != NULL)
+		//좌측 노드로 제귀함수 호출
 		freeBST(head->left);
+	//현재 노드 메모리 해제
 	free(head);
 	return 0;
 }
