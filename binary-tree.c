@@ -254,7 +254,12 @@ Node* searchIterative(Node* head, int key)
 
 int freeBST(Node* head)
 {
-
+	if (head->right != NULL)
+		freeBST(head->right);
+	if (head->left != NULL)
+		freeBST(head->left);
+	free(head);
+	return 0;
 }
 
 
