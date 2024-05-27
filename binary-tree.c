@@ -233,7 +233,22 @@ Node* searchRecursive(Node* ptr, int key)
 
 Node* searchIterative(Node* head, int key)
 {
-
+	Node* current = head->left;
+	while (1) {
+		if (current->key != key) {
+			if (current->key < key) {
+				if (current->right != NULL) current = current->right;
+				else return NULL;
+			}
+			else {
+				if (current->left != NULL) current = current->left;
+				else return NULL;
+			}
+		}
+		else {
+			return current;
+		}
+	}
 }
 
 
